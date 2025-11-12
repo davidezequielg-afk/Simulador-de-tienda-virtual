@@ -45,12 +45,18 @@ do {
                                 let correo = prompt (`Es correcto?: ${clientesCopia.email}
                                                   1- Si, está correcto.
                                                   2- No, deseo editarlo.`);
-                                        for (let i = 0; i < 1; i++) {
-                                            if (correo === "1") {
+                                        switch (correo) {
+                                            case "1":
+                                                alert ("Okey, sigamos.");
                                                 break;
-                                            } else if (correo === "2") {
-                                                cambioCorreo();
-                                            }
+                                            case "2":
+                                                cambioCorreo ();
+                                                break;
+                                            default:
+                                                alert (`Ingrese una opcion valida`)
+                                                continuar1 = true;
+                                                cambioCorreo ();
+                                                break;
                                         }
                                 };
                                 cambioCorreo (continuar1);
