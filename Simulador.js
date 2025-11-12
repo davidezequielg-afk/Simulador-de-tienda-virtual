@@ -45,13 +45,24 @@ do {
                                 let correo = prompt (`Es correcto?: ${clientesCopia.email}
                                                   1- Si, está correcto.
                                                   2- No, deseo editarlo.`);
+                                        switch (correo) {
+                                            case "1":
+                                                alert ("Okey, sigamos.");
+                                                break;
+                                            case "2":
+                                                cambioCorreo ();
+                                                break;
+                                            default:
+                                                alert (`Ingrese una opcion valida`)
+                                                break;
+                                        }
                                 };
                                 cambioCorreo (continuar1);
                                 continuar1 = false;
                                 alert ("Su correo ha sido actualizado.");
                                 break;
                             default:
-                                alert (`RESPUESTA INCORRECTA`)
+                                alert (`Ingrese una opcion valida`)
                                 break;
                         }}while (continuar1);
             continuar = false;
@@ -64,7 +75,7 @@ do {
             continuar = false;
             break;                
         default:
-            alert ("Opcion Incorrecta");
+            alert (`Ingrese una opcion valida`);
             break;
     }
 } while (continuar);
