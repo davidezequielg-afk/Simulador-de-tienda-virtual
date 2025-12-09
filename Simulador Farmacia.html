@@ -3,11 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="Simulador.js"></script>
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="TopFarmaTitle">
+        <h1 id="TopFarma"><img src="Imagenes/logoTopfarma.png" alt="Logo TopFarma" id="logoTopfarma"> TopFarma</h1>
+        
+        <div class="btn-iniciosesion">
+            <header>
+                <input type="text" id="email" placeholder="Email">
+                <input type="password" id="contraseña" placeholder="Contraseña">
+                <button onclick="iniciarSesion()">Iniciar sesion</button>
+                <div  id="mensaje-iniciosesion" id="mensaje" class="ocultar"></div>
+        </div>
+        </header>
+        <div class="Crear-cuentas">
+                <header>
+                    <button id="btn-crear-cuenta" onclick="mostrarformulario()">Crear cuenta</button>
+                </header>
+                <div id="carrito">
+                    <div class="carrito-">
+                        <img src="Imagenes/carrito.png" alt="Carrito" id="icono-carrito">
+                        <h3 id="carrito-titulo">Carrito de compras</h3>
+                    </div>
+                    <div id="carrito-lista"></div>
+                    <div class="total-carrito"></div>
+                </div>
+
+            <div id="formulario-registro" style="display:none;">
+                <form id="FormRegistro">
+                    <h2 id="TituloRegist">Registro de usuarios</h2>
+                    <label for="usuario">Elija un Usuario</label>
+                    <input type="text" id="usuario1" required>
+                        <div>
+                            <label for="Correo">Correo</label>
+                            <input type="email" id="correo" required>
+                        </div>
+                        <div>
+                            <label for="Contraseña">Contraseña</label>
+                            <input type="password" id="contraseña1" required>
+                        </div>
+                        <div>
+                            <label for="ConfirContra">Confirmar Contraseña</label>
+                            <input type="password" id="confircontra" required>
+                        </div>
+                        <div id="mensaje"></div>
+                    <button type="submit" id="submit">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- <div class="banner">
+    <img src="Imagenes/BannerFarmacia.jpg" alt="Banner Farmacia" id="BannerFarmacia"> -->
+<div class="menu">
+        <button id="menuOfertas">Ofertas</button>
+        <button id="menuMedicamentos">Medicamentos</button>
+        <button id="menuHigiene">Higiene</button>
+        <button id="menuVitaminas">Vitaminas</button>
+        <button id="menuContacto">Contacto</button>
+</div>
+    <div id="contenido"></div>
+
+<script src="Simulador.js"></script>
 </body>
 </html>
 <!--ESTE SITIO WEB ES UN BASICO E-COMMERS SOBRE UNA FARMACIA, YA QUE YO TRABAJO EN UNA ME PARECIO

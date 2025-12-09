@@ -1,0 +1,180 @@
+/*titulos*/
+.TopFarmaTitle {
+background-color: #00A339;
+background-position: 100;
+color: white;
+padding: 0px;
+text-align: center;
+font-size: 20px;
+border-radius: 20px;
+display: flex;
+}
+#logoTopfarma {
+width: 150px;
+height: 150px;
+vertical-align: middle; 
+}
+#TopFarma {
+font-size: 80px;
+margin: 0px;
+}
+
+/* Botones */
+.btn-iniciosesion, #btn-iniciar-sesion {
+top: 30px;
+right: 10px;
+position: fixed;
+}
+.btn-iniciosesion input {
+font-size: 18px;
+border-radius: 20px;
+}
+#mensaje-iniciosesion {
+font-size: 16px;
+color: rgb(251, 255, 0);
+margin-top: 10px;
+width: 500px;
+}
+.btn-iniciosesion button {
+font-size: 18px;
+border-radius: 20px;
+}
+#btn-crear-cuenta {
+top: 60px;
+right: 10px;
+position: fixed;
+font-size: 18px;
+border-radius: 20px;
+}
+#submit, #TituloRegist{
+font-size: 18px;
+border-radius: 20px;
+}
+
+/* Registro de  usuarios */
+#FormRegistro {
+background-color: #64a300; 
+color: white;
+font-size: 20px;
+border-radius: 20px;
+padding-top: 15px;
+padding-bottom: 10px;
+padding-left: 0px;
+padding-right: 0px;
+margin-left: 10px;
+width: auto;
+position: absolute;
+top: auto;
+left: 1453px;
+width: 440px;
+top: 155px;
+}
+
+/* Menus pagina principal*/
+
+.menu {
+display: flex;
+gap: 10px;
+background-color: #f5f5f5;
+padding: 10px;  
+}
+.menu button {
+padding: 10px;
+border: none;
+background-color: #00A339;
+color: white;
+font-size: 20px;
+cursor: pointer;
+border-radius: 10px;
+position: relative;   
+}
+.menu button:hover {
+background-color: #0056b3;
+}
+#contenido {
+margin-top: 20px;
+}
+.cuadro {
+min-width: 500px;
+background-color: #f9f9f9;
+border: 2px solid #00A339;
+border-radius: 12px;
+padding: 20px;
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+justify-content: flex-start;
+flex-wrap: wrap;
+gap: 30px;
+}
+.producto {
+display: flex;
+flex-direction: column;
+align-items: center;
+margin: 25px;
+width: 150px;
+text-align: center;
+}
+.producto img {
+width: 200px;
+height: 200px;
+margin-bottom: 5px;
+}
+.producto h4 {
+margin: 0;
+font-size: 20px;
+}
+.producto span {
+color: #00A339;
+font-weight: bold;
+font-size: 15px;
+}
+.btn-agregar {
+background-color: #00A339;
+color: white;
+border: none;
+padding: 8px 12px;
+border-radius: 8px;
+cursor: pointer;
+}
+.btn-agregar:hover {
+background-color: #003d80;
+}
+
+/* Carrito  */
+#carrito {
+position: fixed;
+right: 20px;
+top: 100px;
+width: 280px;
+padding: 15px;
+background-color: #00A339;
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.item-carrito {
+margin-bottom: 8px;
+font-size: 15px;
+color: white;
+}
+.total-carrito {
+margin-top: 10px;
+font-weight: bold;
+font-size: 15px;
+color: #ffffff;
+}
+#icono-carrito {
+width: 15px;
+height: 15px;
+margin-right: 10px;
+}
+#carrito-titulo {
+display: inline;
+font-size: 15px;
+color: white;
+}
+.carrito- {
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+}
