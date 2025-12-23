@@ -32,6 +32,10 @@ position: absolute;
 font-size: 18px;
 border-radius: 20px;
 }
+input {
+font-size: 16px;
+border-radius: 10px;
+}
 
 #mensaje-iniciosesion {
 font-size: 16px;
@@ -82,7 +86,7 @@ padding-left: 0px;
 padding-right: 0px;
 margin-left: 10px;
 position: absolute;
-left: 64.2%;
+left: 71.2%;
 align-content: left;
 width: 440px;
 top: 160px;
@@ -115,7 +119,7 @@ background-color: #0056b3;
 .buscador {
 position: relative  ;
 font-size: 20px;
-right: -450px;
+right: -15%;
 top: 110px;
 width: 200px;
 }
@@ -124,20 +128,22 @@ width: 200px;
 padding-right: 40px;    
 padding-top: 5px;
 height: 35px;
-width: 1000px;
+width: 200%;
+max-width: 800px;
 font-size: 20px;
 box-sizing: border-box;
+border-radius: 20px;
 }
 
 #btnBuscar {
 position: absolute;
-right: -800px;
+right: -100%;
 top: 50%;
 transform: translateY(-230%);
 border: none;
 background: none;
 cursor: pointer;
-    }
+}
 
 #icono-lupa {
 width: 25px;
@@ -202,21 +208,30 @@ background-color: #003d80;
 }
 
 /* Carrito  */
-#btn-carrito {
+#btn-carrito{
 position: absolute;
 right: 230px;
 top: 110px;
 width: 180px;
 padding: 10px;
 background-color: #00A339;
-border-radius: 8px;
+border-radius: 20px;
 box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 color: white;
 font-size: 15px;
 cursor: pointer;
 }
+#btn-vaciar, #btn-comprar {
+background-color: #00A339;
+color: white;
+border: 1px solid white;
+padding: 8px 12px;
+border-radius: 8px;
+cursor: pointer;
+margin-top: 10px;
+}
 
-#btn-carrito:hover {
+#btn-carrito:hover, #btn-vaciar:hover, #btn-comprar:hover {
 background-color: #003d80;
 }
 
@@ -227,7 +242,7 @@ top: 160px;
 width: 400px;
 padding: 15px;
 background-color: #00A339;
-border-radius: 8px;
+border-radius: 20px;
 box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
@@ -237,11 +252,11 @@ font-size: 15px;
 color: white;
 }
 
-.total-carrito {
+.total-carrito, #carrito-lista {
 position: relative;
 margin-top: 10px;
 font-weight: bold;
-font-size: 15px;
+font-size: 30px;
 color: #ffffff;
 }
 

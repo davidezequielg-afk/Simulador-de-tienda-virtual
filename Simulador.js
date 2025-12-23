@@ -1,24 +1,24 @@
 
 let clientes = JSON.parse(localStorage.getItem("clientes")) || [
     {
-        id: 1,
-        usuario: "David",
-        email: "12@gmail",
-        contraseña: "David",
+        id: 0,
+        usuario: "admin",
+        email: "",
+        contraseña: "",
     }
 ];
 localStorage.setItem("clientes", JSON.stringify(clientes));
 
 // Inicio de sesión
 const iniciarSesion = () => {
-    const email = document.getElementById("email").value.trim().toLowerCase();
+    const usuario = document.getElementById("usuario").value.trim().toLowerCase();
     const contraseña = document.getElementById("contraseña").value.trim();
     const mensaje = document.getElementById("mensaje-iniciosesion");
 
     const clientesGuardados = JSON.parse(localStorage.getItem("clientes")) || [];
 
     const cliente = clientesGuardados.find(
-        c => c.email.toLowerCase() === email && c.contraseña === contraseña
+        c => c.usuario.toLowerCase() === usuario && c.contraseña === contraseña
     );
     if (cliente) {
         mensaje.textContent = `Bienvenido nuevamente ${cliente.usuario}`;
@@ -65,8 +65,15 @@ const crearCuenta = (nuevoUsuario, nuevoEmail, nuevaContraseña) => {
 
 const mostrarformulario = () => {
     const formDiv = document.getElementById("formulario-registro");
-    formDiv.style.display = (formDiv.style.display === "none") ? "block" : "none";
+    const carritoDiv = document.getElementById("carrito");
+    if (formDiv.style.display === "none" || formDiv.style.display === "") {
+        formDiv.style.display = "block";
+        carritoDiv.style.display = "none";
+    } else {
+        formDiv.style.display = "none";
+    }
 };
+
 const mostrarMensaje = (texto, color) => {
     const mensajeDiv = document.getElementById("mensaje");
     mensajeDiv.textContent = texto;
@@ -176,9 +183,16 @@ const CuadroProd = (id, titulo, productos = []) => {
 let carrito = [];
 
 const btnCarrito = () => {
-  const carritoDiv = document.getElementById("carrito");
-  carritoDiv.style.display = (carritoDiv.style.display === "none") ? "block" : "none";
+    const carritoDiv = document.getElementById("carrito");
+    const formDiv = document.getElementById("formulario-registro");
+    if (carritoDiv.style.display === "none" || carritoDiv.style.display === "") {
+        carritoDiv.style.display = "block";
+        formDiv.style.display = "none";
+    } else {
+        carritoDiv.style.display = "none";
+    }
 };
+
 document.getElementById("carrito").style.display = "none";
 document.getElementById("btn-carrito").addEventListener("click", btnCarrito);
 
@@ -192,8 +206,8 @@ const mostrarCarrito = () =>  {
     itemDiv.textContent = `${prod.nombre} x${prod.cantidad} - $${prod.precio * prod.cantidad}`;
 
     const btnEliminar = document.createElement("button");
-    btnEliminar.textContent = "-1";
-    btnEliminar.style.marginLeft = "5px";
+    btnEliminar.textContent = "-";
+    btnEliminar.style.marginLeft = "10px";
     btnEliminar.addEventListener("click", () => eliminarDelCarrito(prod.nombre));
 
     itemDiv.appendChild(btnEliminar);
@@ -204,7 +218,6 @@ const mostrarCarrito = () =>  {
   const totalDiv = document.createElement("div");
   totalDiv.className = "total-carrito";
   totalDiv.textContent = `Total: $${total}`;
-  totalDiv.style.fontSize = "30px";
   contenedorCarrito.appendChild(totalDiv);
 };
 
