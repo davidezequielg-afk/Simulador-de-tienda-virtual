@@ -1,86 +1,92 @@
-﻿let clientes = [
+
+let clientes = JSON.parse(localStorage.getItem("clientes")) || [
     {
-        id: 1, 
-        usuario: "David", 
-        email: "12@gmail", 
+        id: 1,
+        usuario: "David",
+        email: "12@gmail",
         contraseña: "David",
     }
 ];
-
-let clientesCopia = [...clientes];
-let continuar = true;
-console.log(clientesCopia);
+localStorage.setItem("clientes", JSON.stringify(clientes));
 
 // Inicio de sesión
-
 const iniciarSesion = () => {
-    const email = document.getElementById("email");
-    const contraseña = document.getElementById("contraseña")
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const contraseña = document.getElementById("contraseña").value.trim();
     const mensaje = document.getElementById("mensaje-iniciosesion");
-    const clienteencontrado = clientes.findIndex (clientesCopia => clientesCopia.correo === email.value && clientesCopia.password === contraseña.value)
-    if (clienteencontrado !== -1) {
-        mensaje.textContent = `Bienvenido nuevamente ${clientesCopia[clienteencontrado].usuario}`;        
-        mensaje.className = "mostrar";  
+
+    const clientesGuardados = JSON.parse(localStorage.getItem("clientes")) || [];
+
+    const cliente = clientesGuardados.find(
+        c => c.email.toLowerCase() === email && c.contraseña === contraseña
+    );
+    if (cliente) {
+        mensaje.textContent = `Bienvenido nuevamente ${cliente.usuario}`;
+        mensaje.className = "mostrar";
+        localStorage.setItem("usuarioActivo", JSON.stringify(cliente));
     } else {
         mensaje.textContent = "Usuario y/o contraseña incorrectos.";
         mensaje.className = "mostrar";
-    }}    
-//
+    }
+};
 
 // Registro de usuarios
-const mostrarformulario = () =>  {
-  const formDiv = document.getElementById("formulario-registro");
-  if (formDiv.style.display === "none") {
-    formDiv.style.display = "block";
-  } else {
-    formDiv.style.display = "none";
-  }
-}
-const mostrarMensaje = (texto, color) => {
-  const mensajeDiv = document.getElementById("mensaje");
-  mensajeDiv.textContent = texto;
-  mensajeDiv.style.color = color;
-}
 const crearCuenta = (nuevoUsuario, nuevoEmail, nuevaContraseña) => {
-  let usuarioExistente = clientes.find(cliente => cliente.usuario === nuevoUsuario);
-  let emailExistente = clientes.find(cliente => cliente.email === nuevoEmail);
-  if (usuarioExistente) {
-    mostrarMensaje("El nombre de usuario ya existe");
-    return;
-  }
-  if (emailExistente) {
-    mostrarMensaje("El email ya está registrado");
-    return;
-  }
-  if (nuevaContraseña.length < 8) {
-    mostrarMensaje("La contraseña debe tener al menos 8 caracteres");
-    return;
-  }
-  let nuevoId = clientes.length + 1;
-  let nuevoCliente = {
-    id: nuevoId,
-    usuario: nuevoUsuario,
-    email: nuevoEmail,
-    contraseña: nuevaContraseña
-  };
-  clientes.push(nuevoCliente);
-  mostrarMensaje(`Cuenta creada. Bienvenido, ${nuevoUsuario}`);
-  document.getElementById("formulario-registro").style.display = "none";
-};
-document.getElementById("FormRegistro").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const usuario = document.getElementById("usuario1").value;
-  const email = document.getElementById("correo").value;
-  const contraseña = document.getElementById("contraseña1").value;
-  const confirmar = document.getElementById("confircontra").value;
+    const clientesGuardados = JSON.parse(localStorage.getItem("clientes")) || [];
 
-  if (contraseña !== confirmar) {
-    mostrarMensaje("Las contraseñas no coinciden");
-    return;
-  }
-  crearCuenta(usuario, email, contraseña);
+    let usuarioExistente = clientesGuardados.find(c => c.usuario === nuevoUsuario);
+    let emailExistente = clientesGuardados.find(c => c.email === nuevoEmail);
+
+    if (usuarioExistente) {
+        mostrarMensaje("El nombre de usuario ya existe", "red");
+        return;
+    }
+    if (emailExistente) {
+        mostrarMensaje("El email ya está registrado", "red");
+        return;
+    }
+    if (nuevaContraseña.length < 8) {
+        mostrarMensaje("La contraseña debe tener al menos 8 caracteres", "red");
+        return;
+    }
+    let nuevoId = clientesGuardados.length + 1;
+    let nuevoCliente = {
+        id: nuevoId,
+        usuario: nuevoUsuario,
+        email: nuevoEmail,
+        contraseña: nuevaContraseña
+    };
+    clientesGuardados.push(nuevoCliente);
+    localStorage.setItem("clientes", JSON.stringify(clientesGuardados));
+
+    mostrarMensaje(`Cuenta creada. Bienvenido, ${nuevoUsuario}`, "green");
+    document.getElementById("formulario-registro").style.display = "none";
+};
+
+const mostrarformulario = () => {
+    const formDiv = document.getElementById("formulario-registro");
+    formDiv.style.display = (formDiv.style.display === "none") ? "block" : "none";
+};
+const mostrarMensaje = (texto, color) => {
+    const mensajeDiv = document.getElementById("mensaje");
+    mensajeDiv.textContent = texto;
+    mensajeDiv.style.color = color;
+};
+
+document.getElementById("FormRegistro").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const usuario = document.getElementById("usuario1").value;
+    const email = document.getElementById("correo").value;
+    const contraseña = document.getElementById("contraseña1").value;
+    const confirmar = document.getElementById("confircontra").value;
+
+    if (contraseña !== confirmar) {
+        mostrarMensaje("Las contraseñas no coinciden", "red");
+        return;
+    }
+    crearCuenta(usuario, email, contraseña);
 });
-// 
+
 // Productos
 
 const productosOfertas = [
@@ -108,6 +114,7 @@ const productosHigiene = [
 const CuadroProd = (id, titulo, productos = []) => {
   const ProductosCont = document.getElementById("contenido");
   const cuadroCprod = document.getElementById(id);
+  
 
   if (cuadroCprod) {
     ProductosCont.removeChild(cuadroCprod);
@@ -168,6 +175,13 @@ const CuadroProd = (id, titulo, productos = []) => {
 // carrito
 let carrito = [];
 
+const btnCarrito = () => {
+  const carritoDiv = document.getElementById("carrito");
+  carritoDiv.style.display = (carritoDiv.style.display === "none") ? "block" : "none";
+};
+document.getElementById("carrito").style.display = "none";
+document.getElementById("btn-carrito").addEventListener("click", btnCarrito);
+
 const mostrarCarrito = () =>  {
   const contenedorCarrito = document.getElementById("carrito-lista");
   contenedorCarrito.innerHTML = "";
@@ -190,6 +204,7 @@ const mostrarCarrito = () =>  {
   const totalDiv = document.createElement("div");
   totalDiv.className = "total-carrito";
   totalDiv.textContent = `Total: $${total}`;
+  totalDiv.style.fontSize = "30px";
   contenedorCarrito.appendChild(totalDiv);
 };
 
@@ -213,5 +228,45 @@ const eliminarDelCarrito = (nombreProducto) => {
     mostrarCarrito();
   }
 };
+
+const btnVaciarcarrito = document.getElementById("btn-vaciar");
+btnVaciarcarrito.addEventListener("click", () => {
+  carrito = [];
+  mostrarCarrito();
+});
+
+const btnComprar = document.getElementById("btn-comprar");
+btnComprar.addEventListener("click", () => {
+  if (carrito.length === 0) {
+    Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "El carrito está vacío",
+  iconColor: "#ff0000ff",
+  confirmButtonColor: "#00A339",
+});
+    return;
+  }
+Swal.fire({
+  title: "¿Estás seguro de comprar estos productos?",
+  text: "¡No podrás revertir esto!",
+  icon: "question",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Sí, comprar",
+  cancelButtonText: "Cancelar"
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+      title: "¡Compra exitosa!",
+      text: "Gracias por tu compra.",
+      icon: "success"
+    });
+  }
+});
+  carrito = [];
+  mostrarCarrito();
+});
 
 

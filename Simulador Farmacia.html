@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="TopFarmaTitle">
-        <h1 id="TopFarma"><img src="Imagenes/logoTopfarma.png" alt="Logo TopFarma" id="logoTopfarma"> TopFarma</h1>
+    <div class="FarmaciaTitle">
+        <h1 id="Farmacia"><img src="Imagenes/logoTopfarma.png" alt="LogoFarmacia" id="logoFarmacia"> Farmacia</h1>
         
         <div class="btn-iniciosesion">
             <header>
@@ -22,13 +22,16 @@
                 <header>
                     <button id="btn-crear-cuenta" onclick="mostrarformulario()">Crear cuenta</button>
                 </header>
+                <button id="btn-carrito">Carro de compras
+                <img src="Imagenes/carrito.png" alt="Carrito" id="icono-carrito">
+                </button>
                 <div id="carrito">
                     <div class="carrito-">
-                        <img src="Imagenes/carrito.png" alt="Carrito" id="icono-carrito">
-                        <h3 id="carrito-titulo">Carrito de compras</h3>
                     </div>
                     <div id="carrito-lista"></div>
                     <div class="total-carrito"></div>
+                    <button id="btn-comprar">Comprar</button>
+                    <button id="btn-vaciar">Vaciar carrito</button>
                 </div>
 
             <div id="formulario-registro" style="display:none;">
@@ -53,8 +56,14 @@
                 </form>
             </div>
         </div>
+        <div class="buscador">
+            <input type="text" id="buscarProducto" placeholder="¿Qué producto buscas?">
+            <button id="btnBuscar">
+                <img src="Imagenes/Buscador.png" alt="Lupa" id="icono-lupa">
+            </button>
+        </div>
     </div>
-
+    
 <!-- <div class="banner">
     <img src="Imagenes/BannerFarmacia.jpg" alt="Banner Farmacia" id="BannerFarmacia"> -->
 <div class="menu">
@@ -67,6 +76,7 @@
     <div id="contenido"></div>
 
 <script src="Simulador.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
 <!--ESTE SITIO WEB ES UN BASICO E-COMMERS SOBRE UNA FARMACIA, YA QUE YO TRABAJO EN UNA ME PARECIO
