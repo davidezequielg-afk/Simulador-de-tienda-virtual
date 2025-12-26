@@ -1,4 +1,3 @@
-
 let clientes = JSON.parse(localStorage.getItem("clientes")) || [
     {
         id: 0,
@@ -21,7 +20,7 @@ const iniciarSesion = () => {
         c => c.usuario.toLowerCase() === usuario && c.contraseña === contraseña
     );
     if (cliente) {
-        mensaje.textContent = `Bienvenido nuevamente ${cliente.usuario}`;
+        mensaje.textContent = `Bienvenido ${cliente.usuario}!!`;
         mensaje.className = "mostrar";
         localStorage.setItem("usuarioActivo", JSON.stringify(cliente));
     } else {
@@ -33,10 +32,8 @@ const iniciarSesion = () => {
 // Registro de usuarios
 const crearCuenta = (nuevoUsuario, nuevoEmail, nuevaContraseña) => {
     const clientesGuardados = JSON.parse(localStorage.getItem("clientes")) || [];
-
     let usuarioExistente = clientesGuardados.find(c => c.usuario === nuevoUsuario);
     let emailExistente = clientesGuardados.find(c => c.email === nuevoEmail);
-
     if (usuarioExistente) {
         mostrarMensaje("El nombre de usuario ya existe", "red");
         return;
@@ -58,8 +55,6 @@ const crearCuenta = (nuevoUsuario, nuevoEmail, nuevaContraseña) => {
     };
     clientesGuardados.push(nuevoCliente);
     localStorage.setItem("clientes", JSON.stringify(clientesGuardados));
-
-    mostrarMensaje(`Cuenta creada. Bienvenido, ${nuevoUsuario}`, "green");
     document.getElementById("formulario-registro").style.display = "none";
 };
 
@@ -176,30 +171,65 @@ const CuadroProd = (id, titulo, productos = []) => {
     document.getElementById("menuVitaminas").addEventListener("click", () => { CuadroProd("vitaminas", "Vitaminas y suplementos", productosVitaminas); }); 
     document.getElementById("menuContacto").addEventListener("click", () => { CuadroProd("contacto", "Formulario de contacto"); });
 
-//  
-
+//Barra de busqueda de productos
+const inputBuscar = document.getElementById("buscarProducto");
+const buscarProductos = (prodEnco) => {
+    const productosFiltrados = productos.filter(p => 
+        p.nombre.toLowerCase().includes(prodEnco)
+    );
+    if (prodEnco === "") {
+        document.getElementById("contenido").innerHTML = "";
+        return;
+    }
+    if (productosFiltrados.length === 0) {
+        CuadroProd("resultados-busqueda", `No se encontraron resultados para "${prodEnco}"`, productosFiltrados);
+    } else {
+        CuadroProd("resultados-busqueda", "", productosFiltrados);
+    }
+}
+btnBuscar.addEventListener("click", () => { 
+const termino = inputBuscar.value.toLowerCase(); 
+buscarProductos(termino);
+});
+inputBuscar.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        const termino = e.target.value.toLowerCase();
+        buscarProductos(termino);
+    }});
+inputBuscar.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        const termino = e.target.value.toLowerCase();
+        buscarProductos(termino);
+    }
+});
 
 // carrito
-let carrito = [];
 
 const btnCarrito = () => {
-    const carritoDiv = document.getElementById("carrito");
-    const formDiv = document.getElementById("formulario-registro");
-    if (carritoDiv.style.display === "none" || carritoDiv.style.display === "") {
-        carritoDiv.style.display = "block";
-        formDiv.style.display = "none";
-    } else {
-        carritoDiv.style.display = "none";
-    }
+  const carritoDiv = document.getElementById("carrito");
+  const formDiv = document.getElementById("formulario-registro");
+  if (carritoDiv.style.display === "none" || carritoDiv.style.display === "") {
+    carritoDiv.style.display = "block";
+    formDiv.style.display = "none";
+  } else {
+    carritoDiv.style.display = "none";
+  }
 };
 
 document.getElementById("carrito").style.display = "none";
 document.getElementById("btn-carrito").addEventListener("click", btnCarrito);
 
-const mostrarCarrito = () =>  {
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+const guardarCarrito = () => {
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+};
+
+const mostrarCarrito = () => {
   const contenedorCarrito = document.getElementById("carrito-lista");
   contenedorCarrito.innerHTML = "";
-  
+
   carrito.forEach(prod => {
     const itemDiv = document.createElement("div");
     itemDiv.className = "item-carrito";
@@ -210,17 +240,21 @@ const mostrarCarrito = () =>  {
     btnEliminar.style.marginLeft = "10px";
     btnEliminar.addEventListener("click", () => eliminarDelCarrito(prod.nombre));
 
+    const btnSumar = document.createElement("button");
+    btnSumar.textContent = "+";
+    btnSumar.style.marginLeft = "5px";
+    btnSumar.addEventListener("click", () => agregarAlCarrito(prod));
     itemDiv.appendChild(btnEliminar);
+    itemDiv.appendChild(btnSumar);
     contenedorCarrito.appendChild(itemDiv);
   });
-  
+
   const total = carrito.reduce((acc, prod) => acc + prod.precio * prod.cantidad, 0);
   const totalDiv = document.createElement("div");
   totalDiv.className = "total-carrito";
   totalDiv.textContent = `Total: $${total}`;
   contenedorCarrito.appendChild(totalDiv);
 };
-
 const agregarAlCarrito = (producto) => {
   let item = carrito.find(p => p.nombre === producto.nombre);
   if (item) {
@@ -228,9 +262,9 @@ const agregarAlCarrito = (producto) => {
   } else {
     carrito.push({ ...producto, cantidad: 1 });
   }
+  guardarCarrito();
   mostrarCarrito();
 };
-
 const eliminarDelCarrito = (nombreProducto) => {
   let item = carrito.find(p => p.nombre === nombreProducto);
   if (item) {
@@ -238,16 +272,50 @@ const eliminarDelCarrito = (nombreProducto) => {
     if (item.cantidad <= 0) {
       carrito = carrito.filter(p => p.nombre !== nombreProducto);
     }
-    mostrarCarrito();
   }
+  guardarCarrito();
+  mostrarCarrito();
 };
-
 const btnVaciarcarrito = document.getElementById("btn-vaciar");
 btnVaciarcarrito.addEventListener("click", () => {
+  if (carrito.length === 0) {
+    Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "El carrito ya está vacío",
+  iconColor: "#ff0000ff",
+  confirmButtonColor: "#00A339",
+});
+    return;
+  }
+  Swal.fire({
+  title: "¿Estás seguro de vaciar el carrito?",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#30d646ff",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Sí, vaciar",
+  cancelButtonText: "Cancelar"
+}).then((result) => {
+if (result.isConfirmed) {
   carrito = [];
   mostrarCarrito();
-});
-
+  guardarCarrito();
+  Swal.fire({
+    title: "Carrito vaciado",
+    icon: "success",
+    confirmButtonColor: "#00A339",
+  }
+);
+return;
+}else {
+  Swal.fire({
+    title: "Acción cancelada",
+    icon: "info",
+    confirmButtonColor: "#00A339",
+  });
+}
+})});
 const btnComprar = document.getElementById("btn-comprar");
 btnComprar.addEventListener("click", () => {
   if (carrito.length === 0) {
@@ -257,29 +325,35 @@ btnComprar.addEventListener("click", () => {
   text: "El carrito está vacío",
   iconColor: "#ff0000ff",
   confirmButtonColor: "#00A339",
-});
-    return;
+});return;
   }
 Swal.fire({
   title: "¿Estás seguro de comprar estos productos?",
-  text: "¡No podrás revertir esto!",
   icon: "question",
   showCancelButton: true,
-  confirmButtonColor: "#3085d6",
+  confirmButtonColor: "#30d646ff",
   cancelButtonColor: "#d33",
   confirmButtonText: "Sí, comprar",
   cancelButtonText: "Cancelar"
 }).then((result) => {
-  if (result.isConfirmed) {
-    Swal.fire({
-      title: "¡Compra exitosa!",
-      text: "Gracias por tu compra.",
-      icon: "success"
-    });
-  }
-});
+if (result.isConfirmed) {
   carrito = [];
   mostrarCarrito();
-});
-
-
+  guardarCarrito();
+  Swal.fire({
+    title: "Compra realizada con éxito",
+    icon: "success",
+    confirmButtonColor: "#00A339",
+  });
+} else {
+  Swal.fire({
+    title: "Compra cancelada",
+    icon: "info",
+    confirmButtonColor: "#00A339",
+  });
+  guardarCarrito();
+  mostrarCarrito();
+}
+})});
+document.addEventListener("DOMContentLoaded", () => { mostrarCarrito(); });
+//Finalizacion de compra

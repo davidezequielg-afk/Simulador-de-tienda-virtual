@@ -1,6 +1,6 @@
 /*titulos*/
-.FarmaciaTitle {
-background-color: #00A339;
+.FarmaciaTitle, .PagoTitulo {
+background-color: #06aa00;
 background-position: 100;
 color: white;
 padding: 0px;
@@ -222,7 +222,7 @@ font-size: 15px;
 cursor: pointer;
 }
 #btn-vaciar, #btn-comprar {
-background-color: #00A339;
+background-color: #FF7F00;
 color: white;
 border: 1px solid white;
 padding: 8px 12px;
