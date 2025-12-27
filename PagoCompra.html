@@ -10,6 +10,28 @@
     <div class="PagoTitulo">
         <h1 id="Pago"><img src="Imagenes/logoTopfarma.png" alt="LogoFarmacia" id="logoFarmacia"> Pago de Compra</h1>
     </div>
-</body>
+    <form id ="formPago">
+        <div class="Form-pago">
+            <label for="nombre">Nombre Completo:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div class="Form-pago">
+            <label for="direccion">Dirección de Envío:</label>
+            <input type="text" id="direccion" name="direccion" required>
+        </div>
+        <div class="Form-pago">
+            <label for="tarjeta">Número de Tarjeta de Crédito:</label>
+            <input type="text" id="tarjeta" name="tarjeta" required>
+        </div>
+        <div class="Form-pago">
+            <label for="fecha">Fecha de Vencimiento:</label>
+            <input type="month" id="fecha" name="fecha" required>
+        </div>
+        <div class="Form-pago">
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" required>
+        </div>
+        <button type="submit" class="btnPago">Pagar Ahora</button>
+    </form>
 </html>
 </HTMl:5>

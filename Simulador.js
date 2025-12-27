@@ -1,33 +1,27 @@
-let clientes = JSON.parse(localStorage.getItem("clientes")) || [
-    {
-        id: 0,
-        usuario: "admin",
-        email: "",
-        contraseña: "",
-    }
-];
-localStorage.setItem("clientes", JSON.stringify(clientes));
-
 // Inicio de sesión
-const iniciarSesion = () => {
+const iniciarSesion = async () => {
     const usuario = document.getElementById("usuario").value.trim().toLowerCase();
     const contraseña = document.getElementById("contraseña").value.trim();
     const mensaje = document.getElementById("mensaje-iniciosesion");
 
-    const clientesGuardados = JSON.parse(localStorage.getItem("clientes")) || [];
+    mensaje.textContent = "Validando credenciales...";
+    mensaje.className = "mostrar";
 
+    await new Promise(resolve => setTimeout(resolve, 800));
+    const clientesGuardados = JSON.parse(localStorage.getItem("clientes")) || [];
     const cliente = clientesGuardados.find(
         c => c.usuario.toLowerCase() === usuario && c.contraseña === contraseña
     );
     if (cliente) {
         mensaje.textContent = `Bienvenido ${cliente.usuario}!!`;
-        mensaje.className = "mostrar";
+        mensaje.className = "mostrar exito";
         localStorage.setItem("usuarioActivo", JSON.stringify(cliente));
     } else {
         mensaje.textContent = "Usuario y/o contraseña incorrectos.";
-        mensaje.className = "mostrar";
+        mensaje.className = "mostrar error";
     }
 };
+
 
 // Registro de usuarios
 const crearCuenta = (nuevoUsuario, nuevoEmail, nuevaContraseña) => {
@@ -197,13 +191,6 @@ inputBuscar.addEventListener("keydown", (e) => {
         const termino = e.target.value.toLowerCase();
         buscarProductos(termino);
     }});
-inputBuscar.addEventListener("keyup", (e) => {
-    if (e.key === "Enter") {
-        e.preventDefault();
-        const termino = e.target.value.toLowerCase();
-        buscarProductos(termino);
-    }
-});
 
 // carrito
 
@@ -356,7 +343,4 @@ btnComprar.addEventListener("click", () => {
   });
 });
 
-
-
-document.addEventListener("DOMContentLoaded", () => { mostrarCarrito(); });
 //Finalizacion de compra
