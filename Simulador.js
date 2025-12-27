@@ -317,43 +317,46 @@ return;
 }
 })});
 const btnComprar = document.getElementById("btn-comprar");
+const PagoCompra = document.getElementById("PagoCompra");
 btnComprar.addEventListener("click", () => {
   if (carrito.length === 0) {
     Swal.fire({
-  icon: "error",
-  title: "Oops...",
-  text: "El carrito está vacío",
-  iconColor: "#ff0000ff",
-  confirmButtonColor: "#00A339",
-});return;
+      icon: "error",
+      title: "Oops...",
+      text: "El carrito está vacío",
+      iconColor: "#ff0000ff",
+      confirmButtonColor: "#00A339",
+    });
+    return;
   }
-Swal.fire({
-  title: "¿Estás seguro de comprar estos productos?",
-  icon: "question",
-  showCancelButton: true,
-  confirmButtonColor: "#30d646ff",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Sí, comprar",
-  cancelButtonText: "Cancelar"
-}).then((result) => {
-if (result.isConfirmed) {
-  carrito = [];
-  mostrarCarrito();
-  guardarCarrito();
   Swal.fire({
-    title: "Compra realizada con éxito",
-    icon: "success",
-    confirmButtonColor: "#00A339",
+    title: "¿Estás seguro de comprar estos productos?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#30d646ff",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, comprar",
+    cancelButtonText: "Cancelar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      carrito = [];
+      mostrarCarrito();
+      guardarCarrito();
+      window.location.href = "PagoCompra.html";
+      return;
+    } else {
+      Swal.fire({
+        title: "Compra cancelada",
+        icon: "info",
+        confirmButtonColor: "#00A339",
+      });
+      guardarCarrito();
+      mostrarCarrito();
+    }
   });
-} else {
-  Swal.fire({
-    title: "Compra cancelada",
-    icon: "info",
-    confirmButtonColor: "#00A339",
-  });
-  guardarCarrito();
-  mostrarCarrito();
-}
-})});
+});
+
+
+
 document.addEventListener("DOMContentLoaded", () => { mostrarCarrito(); });
 //Finalizacion de compra
