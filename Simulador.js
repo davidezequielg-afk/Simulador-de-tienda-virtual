@@ -7,20 +7,25 @@ const iniciarSesion = async () => {
     mensaje.textContent = "Validando credenciales...";
     mensaje.className = "mostrar";
 
-    await new Promise(resolve => setTimeout(resolve, 800));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const clientesGuardados = JSON.parse(localStorage.getItem("clientes")) || [];
     const cliente = clientesGuardados.find(
         c => c.usuario.toLowerCase() === usuario && c.contraseña === contraseña
     );
+
     if (cliente) {
         mensaje.textContent = `Bienvenido ${cliente.usuario}!!`;
         mensaje.className = "mostrar exito";
+        const form = document.getElementById("formLogin");
+        form.style.display = "none";
         localStorage.setItem("usuarioActivo", JSON.stringify(cliente));
     } else {
         mensaje.textContent = "Usuario y/o contraseña incorrectos.";
         mensaje.className = "mostrar error";
     }
 };
+
+
 
 
 // Registro de usuarios
